@@ -42,7 +42,7 @@ const Page = () => {
   const createreport = async (values) => {
     try {
       const req = await ReportServicer.createreport({ content: values });
-      if (!req.success) {
+      if (req.success) {
         postReport({ content: req.content, status: true });
         SetBot(values);
       }
