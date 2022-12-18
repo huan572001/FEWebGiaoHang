@@ -5,28 +5,60 @@ import './index.less';
 import {
   EditOutlined,
   EllipsisOutlined,
+  LoadingOutlined,
   SendOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
 import { data } from 'autoprefixer';
+import { ReportServicer } from '@/services/admin/report';
+import { useAuth } from '@/global';
 
 const Page = () => {
+  const auth = useAuth();
   const [viewport, setViewport] = useState({
     latitude: 45.4211,
     longitude: -75.6903,
   });
   const [chats, setChats] = useState([]);
-  // useEffect(() => {
-  //   // searchAddress('2 Nguyễn Thông, Phường 6, Quận 3, Thành phố Hồ Chí Minh');
-  // }, []);
+  const [loadding, setLoadding] = useState(false);
   const onFinish = (values) => {
-    console.log(values);
+    setLoadding(true);
     document.getElementById('myForm').reset();
     let newData = [...chats];
-    newData.push({ chat: values.chat, bot: false });
+    newData.push({ content: values.chat, status: true });
     setChats(newData);
+    postReport({ content: values.chat, status: true });
+    createreport(values.chat);
   };
-
+  const getAllChat = async () => {
+    try {
+      const req = await ReportServicer.getAllReportById(auth.user.id);
+      if (req?.success) {
+        setChats(req.data);
+      }
+    } catch (error) {}
+  };
+  const createreport = async (values) => {
+    try {
+      const req = await ReportServicer.createreport({ content: values });
+      if (!req.success) {
+        postReport({ content: req.content, status: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const postReport = async (values) => {
+    try {
+      const req = await ReportServicer.postReport(values, auth.user.id);
+      if (req?.success) {
+        setLoadding(false);
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getAllChat();
+  }, []);
   return (
     <>
       <div
@@ -69,37 +101,34 @@ const Page = () => {
             </Form>,
           ]}
         >
-          {chats.map((child, index) => (
-            <>
-              {!child.bot ? (
-                <Card
-                  key={index}
-                  bordered={false}
-                  style={{
-                    background: '#0908ea',
-                    color: '#fff',
-                    borderRadius: 10,
-                    marginBottom: 10,
-                    padding: 0,
-                  }}
-                >
-                  {child.chat}
-                </Card>
-              ) : (
-                <Card
-                  key={index}
-                  bordered={false}
-                  style={{
-                    backgroundColor: '#ECECEC',
-                    borderRadius: 10,
-                    marginBottom: 10,
-                  }}
-                >
-                  {child.chat}
-                </Card>
-              )}
-            </>
-          ))}
+          <div>
+            {chats.map((child, index) => (
+              <>
+                {child.status ? (
+                  <div
+                    style={{
+                      margin: 10,
+                      justifyContent: 'flex-end',
+                      display: 'flex',
+                    }}
+                  >
+                    <div className="btnCustomer" key={index}>
+                      {child.content}
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ margin: 10 }}>
+                    <div className="btnBot" key={index}>
+                      {child.content}
+                    </div>
+                  </div>
+                )}
+              </>
+            ))}
+            <div className="loadding">
+              {loadding ? <LoadingOutlined /> : <></>}
+            </div>
+          </div>
         </Card>
         <MapBox latitude={viewport.latitude} longitude={viewport.longitude} />
       </div>
