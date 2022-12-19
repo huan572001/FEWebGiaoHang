@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { MapBox } from '@/components';
-import { Button, Card, Collapse, Input, Form } from 'antd';
-import './index.less';
+import { useEffect, useState } from "react";
+import { MapBox } from "@/components";
+import { Button, Card, Collapse, Input, Form } from "antd";
+import "./index.less";
 import {
   EditOutlined,
   EllipsisOutlined,
   LoadingOutlined,
   SendOutlined,
   SettingOutlined,
-} from '@ant-design/icons';
-import { data } from 'autoprefixer';
-import { ReportServicer } from '@/services/admin/report';
-import { useAuth } from '@/global';
+} from "@ant-design/icons";
+import { data } from "autoprefixer";
+import { ReportServicer } from "@/services/admin/report";
+import { useAuth } from "@/global";
 
 const Page = () => {
   const auth = useAuth();
@@ -21,10 +21,10 @@ const Page = () => {
   });
   const [chats, setChats] = useState([]);
   const [loadding, setLoadding] = useState(false);
-  const [bot, SetBot] = useState('');
+  const [bot, SetBot] = useState("");
   const onFinish = (values) => {
     setLoadding(true);
-    document.getElementById('myForm').reset();
+    document.getElementById("myForm").reset();
     let newData = [...chats];
     newData.push({ content: values.chat, status: true });
     setChats(newData);
@@ -43,7 +43,7 @@ const Page = () => {
     try {
       const req = await ReportServicer.createreport({ content: values });
       if (req.success) {
-        postReport({ content: req.content, status: true });
+        postReport({ content: req.data, status: true });
         SetBot(values);
       }
     } catch (error) {
@@ -59,14 +59,13 @@ const Page = () => {
     } catch (error) {}
   };
   useEffect(() => {
-    console.log('dsadsad');
     getAllChat();
   }, [bot]);
   return (
     <>
       <div
         className="site-card-border-less-wrapper support"
-        style={{ display: 'flex' }}
+        style={{ display: "flex" }}
       >
         <Card
           title="Chat trả lời tự động"
@@ -75,9 +74,9 @@ const Page = () => {
             width: 500,
           }}
           actions={[
-            <Form style={{ display: 'flex' }} onFinish={onFinish} id="myForm">
+            <Form style={{ display: "flex" }} onFinish={onFinish} id="myForm">
               <Form.Item
-                style={{ margin: 10, marginTop: 0, width: '87%' }}
+                style={{ margin: 10, marginTop: 0, width: "87%" }}
                 name="chat"
               >
                 <Input style={{ borderRadius: 10 }} />
@@ -86,9 +85,9 @@ const Page = () => {
                 <button
                   //   htmlType="submit"
                   style={{
-                    background: '#fff',
-                    border: 'none',
-                    marginLeft: '-10px',
+                    background: "#fff",
+                    border: "none",
+                    marginLeft: "-10px",
                   }}
                 >
                   <SendOutlined
@@ -96,7 +95,7 @@ const Page = () => {
                       marginTop: 5,
                       marginRight: 10,
                       fontSize: 20,
-                      color: 'red',
+                      color: "red",
                     }}
                   />
                 </button>
@@ -111,8 +110,8 @@ const Page = () => {
                   <div
                     style={{
                       margin: 10,
-                      justifyContent: 'flex-end',
-                      display: 'flex',
+                      justifyContent: "flex-end",
+                      display: "flex",
                     }}
                   >
                     <div className="btnCustomer" key={index}>
