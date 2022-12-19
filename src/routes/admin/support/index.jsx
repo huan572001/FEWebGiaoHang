@@ -21,7 +21,7 @@ const Page = () => {
   });
   const [chats, setChats] = useState([]);
   const [loadding, setLoadding] = useState(false);
-  const [bot, SetBot] = useState('');
+  const [bot, SetBot] = useState(true);
   const onFinish = (values) => {
     setLoadding(true);
     document.getElementById('myForm').reset();
@@ -43,8 +43,9 @@ const Page = () => {
     try {
       const req = await ReportServicer.createreport({ content: values });
       if (req.success) {
-        postReport({ content: req.data, status: true });
-        SetBot(values);
+        console.log(req.data);
+        postReport({ content: req.data, status: 0 });
+        SetBot(bot ? false : true);
       }
     } catch (error) {
       console.log(error);
@@ -52,6 +53,7 @@ const Page = () => {
   };
   const postReport = async (values) => {
     try {
+      console.log(values, 'acs');
       const req = await ReportServicer.postReport(values, auth.user.id);
       if (req?.success) {
         setLoadding(false);
