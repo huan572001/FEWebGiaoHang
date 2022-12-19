@@ -1,0 +1,88 @@
+.sider {
+  background: #224922;
+  border-radius: 0px 24px 0px 0px;
+  .cardName {
+    background: #224922;
+    border-radius: 0px 24px 0px 0px;
+    h1 {
+      padding: 5px;
+      font-size: 25px;
+      color: #ffffff;
+    }
+    .abc {
+      border-radius: 15px;
+      background: #2c662c;
+      margin-left: 5px;
+      margin-right: 5px;
+      padding: 5px;
+      display: flex;
+      color: #ffffff;
+      .nameUser {
+      }
+    }
+  }
+  .ant-menu {
+    color: #ffffff;
+  }
+  .menu {
+    background-color: #224922;
+    border: none;
+    width: 90%;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .ant-menu-item-selected {
+      border-radius: 8px;
+      background: #2c662c;
+      color: #7bc45a;
+    }
+    .ant-menu-submenu-selected {
+      color: #7bc45a;
+    }
+    .ant-menu-item::after {
+      border-right: none !important;
+      // border-left: 3px solid #1890ff !important;
+    }
+    .ant-menu-item-icon {
+      width: 24px;
+      height: 24px;
+    }
+    .ant-menu-inline .ant-menu-item {
+      // padding-left: 24px !important;
+      margin-left: 24px;
+      width: 87%;
+    }
+    .ant-menu-item:focus::before {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      left: 2.34%;
+      width: 4px;
+      height: 16px;
+      right: 91.41%;
+      background-color: #7bc45a;
+      border-radius: 4px;
+      // margin-left: -5px;
+      // border-right: none !important;
+      // border-left: 3px solid #1890ff !important;
+    }
+    .ant-menu-sub {
+      background: #224922 !important;
+    }
+    .ant-menu-item-active {
+      border-radius: 8px;
+      background: #224922;
+    }
+  }
+  .logout {
+    padding-left: 30px;
+    &:hover {
+      background-color: #7bc45a;
+      border-radius: 10px;
+      margin-right: 20px;
+      padding: 10px;
+      padding-left: 30px;
+    }
+  }
+}

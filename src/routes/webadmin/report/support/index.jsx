@@ -13,12 +13,13 @@ import { data } from 'autoprefixer';
 import { ReportServicer } from '@/services/admin/report';
 import { useAuth } from '@/global';
 
-const Page = () => {
-  const auth = useAuth();
-  const [viewport, setViewport] = useState({
-    latitude: 45.4211,
-    longitude: -75.6903,
-  });
+const Chat = ({ data }) => {
+  // const auth = useAuth();
+  // const [viewport, setViewport] = useState({
+  //   latitude: 45.4211,
+  //   longitude: -75.6903,
+  // });
+  console.log(data);
   const [chats, setChats] = useState([]);
   const [loadding, setLoadding] = useState(false);
   const [bot, SetBot] = useState('');
@@ -28,31 +29,32 @@ const Page = () => {
     let newData = [...chats];
     newData.push({ content: values.chat, status: true });
     setChats(newData);
-    postReport({ content: values.chat, status: 1 });
-    createreport(values.chat);
+    postReport({ content: values.chat, status: 0 });
   };
   const getAllChat = async () => {
     try {
-      const req = await ReportServicer.getAllReportById(auth.user.id);
+      const req = await ReportServicer.getAllReportById(data.userId);
       if (req?.success) {
         setChats(req.data);
-      }
-    } catch (error) {}
-  };
-  const createreport = async (values) => {
-    try {
-      const req = await ReportServicer.createreport({ content: values });
-      if (req.success) {
-        postReport({ content: req.data, status: true });
-        SetBot(values);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  // const createreport = async (values) => {
+  //   try {
+  //     const req = await ReportServicer.createreport({ content: values });
+  //     if (req.success) {
+  //       postReport({ content: req.data, status: true });
+  //       SetBot(values);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const postReport = async (values) => {
     try {
-      const req = await ReportServicer.postReport(values, auth.user.id);
+      const req = await ReportServicer.postReport(values, data.userId);
       if (req?.success) {
         setLoadding(false);
       }
@@ -60,7 +62,7 @@ const Page = () => {
   };
   useEffect(() => {
     getAllChat();
-  }, [bot]);
+  }, [data]);
   return (
     <>
       <div
@@ -68,7 +70,7 @@ const Page = () => {
         style={{ display: 'flex' }}
       >
         <Card
-          title="Chat trả lời tự động"
+          title={data.Account.Customer.fullname}
           bordered={false}
           style={{
             width: 500,
@@ -132,9 +134,9 @@ const Page = () => {
             </div>
           </div>
         </Card>
-        <MapBox latitude={viewport.latitude} longitude={viewport.longitude} />
+        {/* <MapBox latitude={viewport.latitude} longitude={viewport.longitude} /> */}
       </div>
     </>
   );
 };
-export default Page;
+export default Chat;
