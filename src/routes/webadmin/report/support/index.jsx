@@ -27,7 +27,7 @@ const Chat = ({ data }) => {
     setLoadding(true);
     document.getElementById('myForm').reset();
     let newData = [...chats];
-    newData.push({ content: values.chat, status: true });
+    newData.push({ content: values.chat, status: false });
     setChats(newData);
     postReport({ content: values.chat, status: 0 });
   };
@@ -108,7 +108,7 @@ const Chat = ({ data }) => {
           <div>
             {chats.map((child, index) => (
               <>
-                {child.status ? (
+                {!child.status ? (
                   <div
                     style={{
                       margin: 10,
