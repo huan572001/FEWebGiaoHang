@@ -19,7 +19,6 @@ const Chat = ({ data }) => {
   //   latitude: 45.4211,
   //   longitude: -75.6903,
   // });
-  console.log(data);
   const [chats, setChats] = useState([]);
   const [loadding, setLoadding] = useState(false);
   const [bot, SetBot] = useState('');

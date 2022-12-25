@@ -6,32 +6,42 @@ import { useNavigate } from 'react-router';
 import { routerLinks } from '@/utils';
 import './index.less';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { informError } from '@/components/Modal/Modal';
 const App = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    console.log(values);
     try {
       const res = await UserService.login({
         ...values,
         isRemember: values.isRemember !== undefined,
       });
-      if (res.data.role === 'customer') {
-        auth.login(res);
-        navigate(routerLinks('Customer'), { replace: true });
-      } else if (res.data.role === 'shipper') {
-        auth.login(res);
-        navigate(routerLinks('Shipper'), { replace: true });
-      } else if (res.data.role === 'admin') {
-        auth.login(res);
-        navigate(routerLinks('Admin'), { replace: true });
+      if (res.success) {
+        if (res.data.role === 'customer') {
+          auth.login(res);
+          navigate(routerLinks('Customer'), { replace: true });
+        } else if (res.data.role === 'shipper') {
+          auth.login(res);
+          navigate(routerLinks('Shipper'), { replace: true });
+        } else if (res.data.role === 'admin') {
+          auth.login(res);
+          navigate(routerLinks('Admin'), { replace: true });
+        }
+      } else {
+        informError();
       }
     } catch (err) {
-      console.log('Error is:', err);
+      console.log(
+        err.response.data.msg ===
+          'Fail at auth controller: ReferenceError: reject is not defined'
+      );
+      informError(
+        err.response.data.msg ===
+          'Fail at auth controller: ReferenceError: reject is not defined'
+          ? 'Tài khoản hoặc mật khẩu sai!'
+          : 'Thất bại'
+      );
     }
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
   return (
     <>
@@ -49,7 +59,6 @@ const App = () => {
                 remember: true,
               }}
               onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
             >
               <Form.Item
                 name="email"

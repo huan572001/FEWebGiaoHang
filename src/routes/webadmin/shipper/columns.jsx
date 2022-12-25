@@ -34,7 +34,6 @@ export const columns = () => {
       render: (_, info) => (
         <CheckCircleOutlined
           onClick={() => {
-            console.log(info);
             showApproveModal(() => {
               // confirmMentor(info.user.id, 'approve', setData);
               // approve(info.id);

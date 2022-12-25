@@ -11,7 +11,6 @@ const App = () => {
   const getAllUser = async () => {
     try {
       const req = await ReportServicer.getAllUserReport();
-      console.log(req, 'dsada');
       if (req.success) {
         setData(req.data);
       }

@@ -47,7 +47,6 @@ export const columns = () => {
       render: (_, info) => (
         <CheckCircleOutlined
           onClick={() => {
-            console.log(info);
             // showDeleteOderModal(() => {
             //   deleteOrder(info.id);
             // });

@@ -10,7 +10,6 @@ const Customer = () => {
   const getAllCustomer = async () => {
     try {
       const response = await AdminCusyomerService.getAllCustomer();
-      console.log(response);
       if (response?.success) {
         setData(response.data);
       }

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Select } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, Radio, Select } from 'antd';
 import React from 'react';
 import { useAuth } from '@/global';
 import { useNavigate } from 'react-router';
@@ -6,27 +6,31 @@ import { routerLinks } from '@/utils';
 import './index.less';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { UserService } from '@/services/auth';
-import { informSucess } from '@/components/Modal/Modal';
+import { informError, informSucess } from '@/components/Modal/Modal';
 const App = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
-      const res = await UserService.registerUser(values);
-      if (res.success) {
-        if (values.role === 'shipper') {
-        } else {
-          informSucess(() => {
-            navigate(routerLinks('Login'));
-          });
-        }
+      values.birthday = values.birthday.format('YYYY-MM-DD');
+      const res = await UserService.registerUser({
+        ...values,
+        notification: '1',
+      });
+      console.log(res, '123');
+      if (res?.success) {
+        informSucess(() => {
+          navigate(routerLinks('Login'));
+        });
       } else {
-        informError(res.msg);
+        informError(res?.response.msg);
       }
-    } catch (error) {}
+    } catch (error) {
+      informError(error.response.data.response.msg);
+    }
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    // console.log('Failed:', errorInfo);
   };
   return (
     <>
@@ -41,14 +45,14 @@ const App = () => {
               name="normal_login"
               className="login-form"
               onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
+              // onFinishFailed={onFinishFailed}
             >
               <Form.Item
                 name="email"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Username!',
+                    message: 'Không được để trống',
                   },
                 ]}
               >
@@ -62,7 +66,7 @@ const App = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Không được để trống!',
                   },
                 ]}
               >
@@ -87,7 +91,58 @@ const App = () => {
                   <Option value="shipper">Shipper</Option>
                 </Select>
               </Form.Item>
-
+              <Form.Item
+                name="fullname"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không được để trống!',
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  placeholder="Họ và tên"
+                />
+              </Form.Item>
+              <Form.Item
+                name="address"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không được để trống!',
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  placeholder="Địa chỉ"
+                />
+              </Form.Item>
+              <Form.Item
+                name="phone"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không được để trống!',
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="phone"
+                  placeholder="Số điện thoại"
+                />
+              </Form.Item>
+              <Form.Item name="gender" label="Giới tính">
+                <Radio.Group>
+                  <Radio value="1">Nam</Radio>
+                  <Radio value="0">Nữ</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item name="birthday" label="DatePicker">
+                <DatePicker />
+              </Form.Item>
               <Form.Item>
                 <Button
                   type="primary"

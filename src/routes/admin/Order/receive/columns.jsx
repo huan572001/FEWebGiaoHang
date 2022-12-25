@@ -2,24 +2,27 @@ import {
   showApproveModal,
   showDeleteOderModal,
 } from '@/components/Modal/Modal';
+import { routerLinks } from '@/utils';
 import { CheckCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import deleteOrder from './deleteOrder';
 export const columns = () => {
+  const navigate = useNavigate();
   return [
     {
       title: 'Họ tên người gửi',
       key: '1',
-      render: (_, info) => <>{info.fullname}</>,
+      render: (_, info) => <>{info.Customer.fullname}</>,
     },
     {
       title: 'SDT người gửi',
       key: '2',
-      render: (_, info) => <>{info.phone}</>,
+      render: (_, info) => <>{info.Customer.phone}</>,
     },
     {
       title: 'địa chỉ người gửi',
       key: '3',
-      dataIndex: 'addressCustomer',
+      render: (_, info) => <>{info.addressCustomer}</>,
     },
     {
       title: 'Họ tên người Nhận',
@@ -48,20 +51,13 @@ export const columns = () => {
         <>
           <CheckCircleOutlined
             onClick={() => {
-              console.log(info);
               showDeleteOderModal(() => {
                 deleteOrder(info.id);
               });
             }}
           />
           <CheckCircleOutlined
-            onClick={() => {
-              console.log(info);
-              showApproveModal(() => {
-                // confirmMentor(info.user.id, 'approve', setData);
-                // approve(info.id);
-              });
-            }}
+            onClick={() => navigate(`edit/${info.id}`, { state: { info } })}
           />
         </>
       ),

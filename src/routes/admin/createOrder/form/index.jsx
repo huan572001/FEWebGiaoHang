@@ -41,6 +41,9 @@ const FormOrder = () => {
     }
   };
   const onFinishReceiver = (value) => {
+    if (distance !== 0) {
+      document.getElementById('sub').disabled = false;
+    }
     setOpenReceiver([]);
     setViewport({
       start: viewport.start,
@@ -58,10 +61,13 @@ const FormOrder = () => {
     });
   };
   const onFinishDelivery = async (value) => {
+    if (distance !== 0) {
+      document.getElementById('sub').disabled = false;
+    }
     try {
       setData({
         ...data,
-        addressCustomer: addressReceiver.matching_place_name,
+        addressCustomer: addressDelivery.matching_place_name,
       });
       setOpen([]);
       setViewport({
@@ -87,7 +93,6 @@ const FormOrder = () => {
       // setLoading(false);
     }
   };
-  // console.log(data.addressCustomer);
   const onSubmit = async () => {
     try {
       const response = await OrderService.addOrderServices({
@@ -101,7 +106,6 @@ const FormOrder = () => {
       if (response.success) {
         informSucess(navigate(routerLinks('Customer')));
       } else {
-        console.log(response);
         informError();
       }
     } catch (error) {}
@@ -119,7 +123,15 @@ const FormOrder = () => {
           key="1"
         >
           <Form name="complex-form" onFinish={onFinishDelivery}>
-            <Form.Item name="addressSender">
+            <Form.Item
+              name="addressSender"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: 'Không đươc để trống!',
+              //   },
+              // ]}
+            >
               {Search(setAddressDelivery)}
             </Form.Item>
 
@@ -137,6 +149,12 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   borderRadius: 10,
                 }}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: 'Không đươc để trống!',
+                //   },
+                // ]}
               >
                 <Input
                   disabled
@@ -151,6 +169,12 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   margin: '0 8px',
                 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không đươc để trống!',
+                  },
+                ]}
               >
                 <Input
                   placeholder="Số điện thoại"
@@ -181,7 +205,15 @@ const FormOrder = () => {
           key="1"
         >
           <Form onFinish={onFinishReceiver}>
-            <Form.Item name="addressReceiver">
+            <Form.Item
+              name="addressReceiver"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: 'Không đươc để trống!',
+              //   },
+              // ]}
+            >
               {Search(setAddressReceiver)}
             </Form.Item>
             {/* <Form.Item name="addressDetailReceiver">
@@ -198,6 +230,12 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   borderRadius: 10,
                 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không đươc để trống!',
+                  },
+                ]}
               >
                 <Input
                   placeholder="Tên người gửi"
@@ -211,6 +249,12 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   margin: '0 8px',
                 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không đươc để trống!',
+                  },
+                ]}
               >
                 <Input
                   placeholder="Số điện thoại"
@@ -226,6 +270,12 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   borderRadius: 10,
                 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không đươc để trống!',
+                  },
+                ]}
               >
                 <Input placeholder="Thu hộ" style={{ borderRadius: 10 }} />
               </Form.Item>
@@ -236,6 +286,12 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   margin: '0 8px',
                 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Không đươc để trống!',
+                  },
+                ]}
               >
                 <Input
                   placeholder="Loại hàng hóa"
@@ -264,6 +320,7 @@ const FormOrder = () => {
       )}
 
       <Button
+        id="sub"
         htmlType="submit"
         style={{
           backgroundColor: '#FD8D19',
@@ -274,6 +331,7 @@ const FormOrder = () => {
           marginTop: 16,
         }}
         onClick={onSubmit}
+        // disabled
       >
         Xác nhận
       </Button>

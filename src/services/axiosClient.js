@@ -2,6 +2,7 @@ import axios from 'axios';
 import auth from '@/utils/auth';
 const axiosClient = axios.create({
   baseURL: 'http://localhost:3000/api/v1/',
+  // baseURL: 'http://172.20.10.14:3000/api/v1/',
   // import.meta.env.REACT_APP_API_URL + import.meta.env.REACT_APP_API_VERSION,
   headers: {
     'Content-Type': 'application/json',
@@ -26,23 +27,22 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    // if ([401, 403].includes(error?.response?.status)) {
-    //   const pattern = /auth/;
-    //   if (!pattern.test(window.location.pathname)) {
-    //     swal({
-    //       title: `Thất bại`,
-    //       text: `Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.`,
-    //       icon: 'warning',
-    //       button: "Đăng nhập",
-    //     }).then(() => {
-    //       store.dispatch({ type: TOKEN_EXPIRES });
-    //     })
-    //   }
-    //   else {
-    //     store.dispatch({ type: TOKEN_EXPIRES });
-    //   }
-    // }
-    // throw error;
+    if ([401, 403].includes(error?.response?.status)) {
+      const pattern = /auth/;
+      if (!pattern.test(window.location.pathname)) {
+        swal({
+          title: `Thất bại`,
+          text: `Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.`,
+          icon: 'warning',
+          button: 'Đăng nhập',
+        }).then(() => {
+          store.dispatch({ type: TOKEN_EXPIRES });
+        });
+      } else {
+        store.dispatch({ type: TOKEN_EXPIRES });
+      }
+    }
+    throw error;
   }
 );
 

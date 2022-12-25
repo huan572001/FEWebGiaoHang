@@ -3,9 +3,11 @@ import { mapboxAccessToken } from '@/variable';
 
 export const MapService = {
   searchAddress: async (address) => {
+    // const abc = address + 'Ho Chi Minh, Ho Chi Minh City, 710000, Vietnam';
+    // console.log(abc);
     try {
       return axiosClient.get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${mapboxAccessToken}`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?&proximity=106.7834978,10.8486428&access_token=${mapboxAccessToken}`
       );
     } catch (e) {
       console.error(e);

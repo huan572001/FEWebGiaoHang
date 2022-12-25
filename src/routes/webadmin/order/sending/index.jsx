@@ -10,7 +10,6 @@ const Page = () => {
     try {
       const response = await CustomerReceiveService.getAllOrder();
       if (response?.success) {
-        console.log(response.order);
         setData(
           response.order.filter(function (e) {
             return e.status === 'R';

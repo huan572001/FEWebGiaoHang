@@ -9,7 +9,6 @@ const Page = () => {
   const getAllAPI = async () => {
     try {
       const response = await CustomerReceiveService.getAllOrder();
-      console.log(response);
       if (response?.success) {
         setData(
           response.data.filter(function (e) {

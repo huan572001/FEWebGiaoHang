@@ -43,7 +43,6 @@ const Page = () => {
     try {
       const req = await ReportServicer.createreport({ content: values });
       if (req.success) {
-        console.log(req.data);
         postReport({ content: req.data, status: 0 });
         SetBot(bot ? false : true);
       }
@@ -53,7 +52,6 @@ const Page = () => {
   };
   const postReport = async (values) => {
     try {
-      console.log(values, 'acs');
       const req = await ReportServicer.postReport(values, auth.user.id);
       if (req?.success) {
         setLoadding(false);

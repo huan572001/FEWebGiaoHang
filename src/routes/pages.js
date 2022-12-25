@@ -46,11 +46,11 @@ export const pages = [
         component: React.lazy(() => import('./admin/support')),
         title: 'Quản lý đơn hàng',
       },
-      // {
-      //   path: routerLinks('Quản lý doanh thu'),
-      //   component: React.lazy(() => import('./admin/account/systemAccount')),
-      //   title: 'Quản lý doanh thu',
-      // },
+      {
+        path: `${routerLinks('Quản lý đơn hàng')}/edit/:id`,
+        component: React.lazy(() => import('./admin/Order/receive/editOder')),
+        title: 'Quản lý doanh thu',
+      },
       // {
       //   path: routerLinks('Hỗ trợ'),
       //   component: React.lazy(() => import('./admin/account/role')),

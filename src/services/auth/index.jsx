@@ -5,7 +5,6 @@ import { USER_API_PATH } from '@/constant/api';
 
 export const UserService = {
   login: async (values) => {
-    console.log(values);
     try {
       return axiosClient.post(`${USER_API_PATH}/login`, values);
     } catch (e) {
@@ -17,7 +16,6 @@ export const UserService = {
     }
   },
   registerUser: async (values) => {
-    console.log(values);
     try {
       return axiosClient.post(`${USER_API_PATH}/register`, values);
     } catch (e) {
@@ -29,7 +27,6 @@ export const UserService = {
     }
   },
   registerShipper: async (values) => {
-    console.log(values);
     try {
       return axiosClient.post(`${USER_API_PATH}/register`, values);
     } catch (e) {

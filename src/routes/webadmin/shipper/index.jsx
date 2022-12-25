@@ -11,7 +11,6 @@ const Customer = () => {
     try {
       const response = await AdminShiperService.getAllShipper();
       if (response.success) {
-        console.log(response.user);
         setData(response.user);
       }
     } catch (err) {

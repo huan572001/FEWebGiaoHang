@@ -21,4 +21,9 @@ export const OrderService = {
       return axiosClient.delete(`${CUSTOMER_API_PATH}/delete/${id}`);
     } catch (error) {}
   },
+  updateOrder: async (id) => {
+    try {
+      return axiosClient.put(`${CUSTOMER_API_PATH}/updateOrder/${id}`);
+    } catch (error) {}
+  },
 };
