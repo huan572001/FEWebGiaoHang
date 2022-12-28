@@ -2,16 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { MapBox } from '@/components';
 import { Button, Card, Collapse } from 'antd';
 import FormOrder from './form';
+import { UserService } from '@/services/auth';
 
 const Page = () => {
   const [viewport, setViewport] = useState({
     latitude: 45.4211,
     longitude: -75.6903,
   });
-
+  const [infoUser, setInfoUser] = useState(undefined);
+  const getUser = async () => {
+    try {
+      const req = await UserService.getCustomerById();
+      console.log(req);
+      setInfoUser(req?.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
   // useEffect(() => {
   //   // searchAddress('2 Nguyễn Thông, Phường 6, Quận 3, Thành phố Hồ Chí Minh');
   // }, []);
+  console.log(infoUser);
   return (
     <>
       <div
@@ -41,7 +53,7 @@ const Page = () => {
                 borderRadius: 10,
               }}
             >
-              <FormOrder />
+              {infoUser === undefined ? ' ' : <FormOrder infoUser={infoUser} />}
             </Card>
           </div>
         </Card>

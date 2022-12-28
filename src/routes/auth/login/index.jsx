@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { UserService } from '@/services/auth';
 import { useAuth } from '@/global';
 import { useNavigate } from 'react-router';
@@ -18,6 +18,7 @@ const App = () => {
       });
       if (res.success) {
         if (res.data.role === 'customer') {
+          // infoUser(res);
           auth.login(res);
           navigate(routerLinks('Customer'), { replace: true });
         } else if (res.data.role === 'shipper') {

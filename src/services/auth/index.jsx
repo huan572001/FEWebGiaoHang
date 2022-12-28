@@ -37,4 +37,15 @@ export const UserService = {
       return false;
     }
   },
+  getCustomerById: async () => {
+    try {
+      return axiosClient.get(`/auth/info`);
+    } catch (e) {
+      console.error(e);
+      if (e.response.data.message) {
+        // Message.error({ text: e.response.data.message });
+      }
+      return false;
+    }
+  },
 };

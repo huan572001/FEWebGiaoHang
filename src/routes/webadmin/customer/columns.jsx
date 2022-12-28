@@ -1,12 +1,19 @@
 import { showApproveModal } from '@/components/Modal/Modal';
-import { CheckCircleOutlined } from '@ant-design/icons';
-export const columns = () => {
+import {
+  CheckCircleOutlined,
+  LockOutlined,
+  UnlockOutlined,
+} from '@ant-design/icons';
+import lock from '../component/lock';
+import unLock from '../component/unLock';
+export const columns = (setSuccess, getColumnSearchProps) => {
   return [
     {
       title: 'Họ tên',
       key: '1',
       render: (_, info) => <>{info?.Customer?.fullname}</>,
       dataIndex: 'fullname',
+      // ...getColumnSearchProps(info?.Customer?.fullname),
     },
     {
       title: 'SDT',
@@ -17,6 +24,7 @@ export const columns = () => {
       title: 'Email',
       key: '2',
       dataIndex: 'email',
+      ...getColumnSearchProps('email'),
     },
     {
       title: 'địa chỉ',
@@ -44,16 +52,29 @@ export const columns = () => {
     {
       title: 'HOẠT ĐỘNG',
       key: '8',
-      render: (_, info) => (
-        <CheckCircleOutlined
-          onClick={() => {
-            showApproveModal(() => {
-              // confirmMentor(info.user.id, 'approve', setData);
-              // approve(info.id);
-            });
-          }}
-        />
-      ),
+      render: (_, info) => {
+        return info?.isAcctive ? (
+          <UnlockOutlined
+            onClick={() => {
+              showApproveModal(() => {
+                info?.isAcctive
+                  ? lock(info?.id, setSuccess)
+                  : unLock(info?.id, setSuccess);
+              }, 'Bạn có chắc chắn khóa tài khoản này không');
+            }}
+          />
+        ) : (
+          <LockOutlined
+            onClick={() => {
+              showApproveModal(() => {
+                info?.isAcctive
+                  ? lock(info?.id, setSuccess)
+                  : unLock(info?.id, setSuccess);
+              }, 'Bạn có chắc chắn muon mo tài khoản này không');
+            }}
+          />
+        );
+      },
     },
   ];
 };

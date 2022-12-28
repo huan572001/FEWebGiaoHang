@@ -1,11 +1,6 @@
 import { HomeOutlined } from '@ant-design/icons';
 const Layout = [
   {
-    label: 'Dashboard',
-    key: 'Dashboard',
-    icon: <HomeOutlined />,
-  },
-  {
     label: 'Nhận đơn hàng',
     key: 'Nhận đơn hàng',
     icon: <HomeOutlined />,

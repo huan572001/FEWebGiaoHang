@@ -6,8 +6,8 @@ const Util = (name) => {
 
     Customer: '/customer',
     'Tạo đơn hàng': '/user',
-    'Quản lý đơn hàng': 'userAccount',
-    'Quản lý doanh thu': 'systemAccount',
+    'Quản lý đơn hàng': '/userAccount',
+    'Quản lý doanh thu': '/revenue',
     'Hỗ trợ': 'roleAccount',
     //shipper
     Shipper: '/shipper',

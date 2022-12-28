@@ -22,9 +22,9 @@ export const informError = (error) => {
     buttons: 'Đồng ý',
   });
 };
-export const showApproveModal = (onAccept) => {
+export const showApproveModal = (onAccept, title) => {
   swal({
-    title: 'Bạn có muốn chắc chắn nhận đơn hàng này không',
+    title: title ? title : 'Bạn có muốn chắc chắn nhận đơn hàng này không',
     icon: 'warning',
     // dangerMode: true,
     buttons: ['Hủy', 'Đồng Ý'],

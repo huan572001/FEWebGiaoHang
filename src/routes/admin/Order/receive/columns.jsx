@@ -6,38 +6,46 @@ import { routerLinks } from '@/utils';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import deleteOrder from './deleteOrder';
-export const columns = () => {
+export const columns = (getColumnSearchProps) => {
   const navigate = useNavigate();
   return [
     {
       title: 'Họ tên người gửi',
       key: '1',
+      dataIndex: '1',
       render: (_, info) => <>{info.Customer.fullname}</>,
+      // ...getColumnSearchProps('1'),
     },
     {
       title: 'SDT người gửi',
       key: '2',
+      // dataIndex: '2',
       render: (_, info) => <>{info.Customer.phone}</>,
+      // ...getColumnSearchProps('2'),
     },
     {
       title: 'địa chỉ người gửi',
-      key: '3',
-      render: (_, info) => <>{info.addressCustomer}</>,
+      key: 'addressCustomer',
+      dataIndex: 'addressCustomer',
+      ...getColumnSearchProps('addressCustomer'),
     },
     {
       title: 'Họ tên người Nhận',
-      key: '4',
+      key: 'nameReceiver',
       dataIndex: 'nameReceiver',
+      ...getColumnSearchProps('nameReceiver'),
     },
     {
       title: 'SDT người Nhận',
-      key: '5',
+      key: 'phoneReceiver',
       dataIndex: 'phoneReceiver',
+      ...getColumnSearchProps('phoneReceiver'),
     },
     {
       title: 'địa chỉ người Nhận',
       key: '6',
       dataIndex: 'addressReceiver',
+      ...getColumnSearchProps('addressReceiver'),
     },
     {
       title: 'giá ship',

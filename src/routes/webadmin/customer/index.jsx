@@ -1,11 +1,13 @@
-import { Table } from 'antd';
-import { useEffect, useState } from 'react';
 import { AdminCusyomerService } from '@/services/admin/customer';
 // import {} from '@/services/customer/Order';
 import { columns } from './columns';
-
+import { useEffect, useState, useRef } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Space, Table, Tabs } from 'antd';
+import Highlighter from 'react-highlight-words';
 const Customer = () => {
   const [data, setData] = useState([]);
+  const [success, setSuccess] = useState(true);
   let uniqueId = 1;
   const getAllCustomer = async () => {
     try {
@@ -19,12 +21,116 @@ const Customer = () => {
     }
   };
   useEffect(() => {
-    getAllCustomer();
-  }, []);
+    if (success) {
+      getAllCustomer();
+      setSuccess(false);
+    }
+  }, [success]);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1890ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
   return (
     <>
       <Table
-        columns={columns()}
+        columns={columns(setSuccess, getColumnSearchProps)}
         dataSource={data}
         rowKey={(record) => {
           if (!record.__uniqueId) record.__uniqueId = ++uniqueId;

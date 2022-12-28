@@ -1,6 +1,11 @@
-import { showApproveModal } from '@/components/Modal/Modal';
+import {
+  informError,
+  informSucess,
+  showApproveModal,
+} from '@/components/Modal/Modal';
+import { ShipperReceiveService } from '@/services/shipper/receive';
 import { CheckCircleOutlined } from '@ant-design/icons';
-export const columns = () => {
+export const columns = (doneReciever, getColumnSearchProps) => {
   return [
     {
       title: 'Họ tên người gửi',
@@ -16,26 +21,31 @@ export const columns = () => {
       title: 'địa chỉ người gửi',
       key: '3',
       dataIndex: 'addressCustomer',
+      ...getColumnSearchProps('addressCustomer'),
     },
     {
       title: 'Họ tên người Nhận',
       key: '4',
       dataIndex: 'nameReceiver',
+      ...getColumnSearchProps('nameReceiver'),
     },
     {
       title: 'SDT người Nhận',
       key: '5',
       dataIndex: 'phoneReceiver',
+      ...getColumnSearchProps('phoneReceiver'),
     },
     {
       title: 'địa chỉ người Nhận',
       key: '6',
       dataIndex: 'addressReceiver',
+      ...getColumnSearchProps('addressReceiver'),
     },
     {
       title: 'giá ship',
       key: '7',
       dataIndex: 'totalMoney',
+      ...getColumnSearchProps('totalMoney'),
     },
     {
       title: 'HOẠT ĐỘNG',
@@ -44,9 +54,8 @@ export const columns = () => {
         <CheckCircleOutlined
           onClick={() => {
             showApproveModal(() => {
-              // confirmMentor(info.user.id, 'approve', setData);
-              // approve(info.id);
-            });
+              doneReciever(info.id);
+            }, 'Xác nhận đã hoàn thành đơn hàng!  ');
           }}
         />
       ),

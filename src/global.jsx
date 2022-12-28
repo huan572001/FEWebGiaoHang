@@ -25,8 +25,8 @@ const Global = ({ children }) => {
   const [title, setTitle] = useState('');
 
   const login = (data) => {
-    localStorage.setItem(keyUser, JSON.stringify(data.data));
-    setUser(data.data);
+    localStorage.setItem(keyUser, JSON.stringify({ ...data.data }));
+    setUser({ ...data.data });
     localStorage.setItem(keyToken, data.token);
     localStorage.setItem(keyRefreshToken, data.refreshToken);
   };

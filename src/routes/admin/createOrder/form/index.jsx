@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Tooltip, Collapse } from 'antd';
+import { Button, Form, Input, Tooltip, Collapse, Select } from 'antd';
 import { OrderService } from '@/services/customer/Order';
 import { MapService } from '@/services/map';
 import auth from '@/utils/auth';
@@ -7,7 +7,9 @@ import Search from '../search';
 import { informSucess, informError } from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import { routerLinks } from '@/utils';
-const FormOrder = () => {
+import { values } from 'lodash';
+import { UserService } from '@/services/auth';
+const FormOrder = ({ infoUser }) => {
   const { Panel } = Collapse;
   const [open, setOpen] = useState(['1']);
   const [openReceiver, setOpenReceiver] = useState(['1']);
@@ -25,16 +27,35 @@ const FormOrder = () => {
       latitude: null,
     },
   });
+  const [commodities, setCommodities] = useState([]);
+  const [coin, setCoin] = useState(0);
+
   const navigate = useNavigate();
+  useEffect(() => {
+    getCommodities();
+  }, []);
   useEffect(() => {
     if (viewport.end.latitude !== null && viewport.start.latitude !== null) {
       distanceAPI();
     }
   }, [viewport]);
+
+  const getCommodities = async () => {
+    try {
+      const req = await OrderService.getCommodities();
+      if (req.success) {
+        setCommodities(req.commodities);
+      }
+    } catch (error) {}
+  };
   const distanceAPI = async () => {
     try {
       const response = await MapService.distance(viewport.start, viewport.end);
       setDistance(response.routes[0].distance);
+      const com = commodities.filter((ele) => {
+        return ele.id === data.id_Commodities;
+      });
+      setCoin((response.routes[0].distance / 1000) * com[0]?.cost);
     } catch (err) {
       console.log('Error is:', err);
       // setLoading(false);
@@ -55,12 +76,14 @@ const FormOrder = () => {
     setData({
       ...data,
       addressReceiver: addressReceiver.matching_place_name,
-      phoneReceiver: value.phone,
-      id_Commodities: '1',
+      phoneReceiver: value.phoneReceiver,
+      id_Commodities: value.commodities,
+      nameReceiver: value.nameReceiver,
       status: '0',
     });
   };
   const onFinishDelivery = async (value) => {
+    console.log(value, 'huan');
     if (distance !== 0) {
       document.getElementById('sub').disabled = false;
     }
@@ -80,7 +103,7 @@ const FormOrder = () => {
 
       value.addressReceiver = addressReceiver.matching_place_name;
       const response = await OrderService.addressSender(auth.getUser().id, {
-        address: addressReceiver.matching_place_name,
+        address: value.addressSender,
         phone: value.phoneSender,
       });
       if (response.success) {
@@ -96,11 +119,7 @@ const FormOrder = () => {
   const onSubmit = async () => {
     try {
       const response = await OrderService.addOrderServices({
-        nameReceiver: 'data.',
-        addressReceiver: data.addressReceiver,
-        phoneReceiver: '012144232',
-        id_Commodities: '1',
-        addressCustomer: data.addressCustomer,
+        ...data,
         totalMoney: (distance / 1000) * 15000,
       });
       if (response.success) {
@@ -109,6 +128,16 @@ const FormOrder = () => {
         informError();
       }
     } catch (error) {}
+  };
+  const fomat = () => {
+    const op = [];
+    commodities.forEach((child) => {
+      op.push({
+        value: child.id,
+        label: child.name + ' giá: ' + child.cost,
+      });
+    });
+    return op;
   };
   return (
     <>
@@ -122,7 +151,15 @@ const FormOrder = () => {
           header="Địa điểm lấy hàng"
           key="1"
         >
-          <Form name="complex-form" onFinish={onFinishDelivery}>
+          <Form
+            name="complex-form"
+            onFinish={onFinishDelivery}
+            initialValues={{
+              addressSender: infoUser?.address,
+              nameSender: infoUser?.fullname,
+              phoneSender: infoUser?.phone,
+            }}
+          >
             <Form.Item
               name="addressSender"
               // rules={[
@@ -132,15 +169,9 @@ const FormOrder = () => {
               //   },
               // ]}
             >
-              {Search(setAddressDelivery)}
+              {Search(setAddressDelivery, infoUser?.address)}
             </Form.Item>
 
-            {/* <Form.Item name="addressDetail">
-              <Input
-                placeholder="Chi tiết địa chỉ"
-                style={{ borderRadius: 10 }}
-              />
-            </Form.Item> */}
             <Form.Item style={{ marginBottom: 0 }}>
               <Form.Item
                 name="nameSender"
@@ -149,12 +180,6 @@ const FormOrder = () => {
                   width: 'calc(50% - 8px)',
                   borderRadius: 10,
                 }}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: 'Không đươc để trống!',
-                //   },
-                // ]}
               >
                 <Input
                   disabled
@@ -264,23 +289,7 @@ const FormOrder = () => {
             </Form.Item>
             <Form.Item style={{ marginBottom: 0 }}>
               <Form.Item
-                name="collect"
-                style={{
-                  display: 'inline-block',
-                  width: 'calc(50% - 8px)',
-                  borderRadius: 10,
-                }}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Không đươc để trống!',
-                  },
-                ]}
-              >
-                <Input placeholder="Thu hộ" style={{ borderRadius: 10 }} />
-              </Form.Item>
-              <Form.Item
-                name="sectors"
+                name="commodities"
                 style={{
                   display: 'inline-block',
                   width: 'calc(50% - 8px)',
@@ -293,9 +302,12 @@ const FormOrder = () => {
                   },
                 ]}
               >
-                <Input
-                  placeholder="Loại hàng hóa"
-                  style={{ borderRadius: 10 }}
+                <Select
+                  placeholder="loại hàng"
+                  style={{
+                    width: 120,
+                  }}
+                  options={fomat()}
                 />
               </Form.Item>
             </Form.Item>
@@ -313,7 +325,7 @@ const FormOrder = () => {
       {distance !== 0 ? (
         <>
           <div>khoảng cách {distance / 1000} km</div>
-          <div>tổng số tiền phải trả= {(distance / 1000) * 15000}</div>
+          <div>tổng số tiền phải trả= {coin}</div>
         </>
       ) : (
         <></>

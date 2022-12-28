@@ -6,25 +6,29 @@ import { columns } from './columns';
 
 const Customer = () => {
   const [data, setData] = useState([]);
+  const [success, setSuccess] = useState(true);
   let uniqueId = 1;
   const getAllShiper = async () => {
     try {
       const response = await AdminShiperService.getAllShipper();
       if (response.success) {
-        setData(response.user);
+        setData(response.data);
       }
     } catch (err) {
       console.log('Error is:', err);
       // setLoading(false);
     }
   };
-  // useEffect(() => {
-  //   getAllShiper();
-  // }, []);
+  useEffect(() => {
+    if (success) {
+      getAllShiper();
+      setSuccess(false);
+    }
+  }, [success]);
   return (
     <>
       <Table
-        columns={columns()}
+        columns={columns(setSuccess)}
         dataSource={data}
         rowKey={(record) => {
           if (!record.__uniqueId) record.__uniqueId = ++uniqueId;

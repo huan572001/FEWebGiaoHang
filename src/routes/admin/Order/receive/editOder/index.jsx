@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { MapBox } from '@/components';
-import { Button, Card, Collapse, Form, Input } from 'antd';
+import { Button, Card, Collapse, Form, Input, Select } from 'antd';
 import { values } from 'lodash';
 import Search from '@/routes/admin/createOrder/search';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CustomerReceiveService } from '@/services/customer/receive';
 import { MapService } from '@/services/map';
+import { informError, informSucess } from '@/components/Modal/Modal';
+import { OrderService } from '@/services/customer/Order';
+import { routerLinks } from '@/utils';
 
 const Page = () => {
   const [viewport, setViewport] = useState({
     latitude: 45.4211,
     longitude: -75.6903,
   });
+  const [commodities, setCommodities] = useState([]);
   const [addressReceiver, setAddressReceiver] = useState([]);
   const [addressDelivery, setAddressDelivery] = useState([]);
   const [distance, setDistance] = useState();
+  const navigate = useNavigate();
   const id = useParams();
   const data = useLocation();
 
@@ -25,6 +30,9 @@ const Page = () => {
       distanceAPI();
     }
   }, [addressReceiver, addressDelivery]);
+  useEffect(() => {
+    getCommodities();
+  }, []);
   const distanceAPI = async () => {
     try {
       const response = await MapService.distance(
@@ -46,17 +54,40 @@ const Page = () => {
   const updateOrder = async (data) => {
     try {
       const req = await OrderService.updateOrder(id, data);
+      if (req.success) {
+        informSucess(navigate(routerLinks('Quản lý đơn hàng')));
+      }
+    } catch (error) {
+      console.log(error);
+      informError();
+    }
+  };
+  const fomat = () => {
+    const op = [];
+    commodities.forEach((child) => {
+      op.push({
+        value: child.id,
+        label: child.name + ' giá: ' + child.cost,
+      });
+    });
+    return op;
+  };
+  const getCommodities = async () => {
+    try {
+      const req = await OrderService.getCommodities();
+      if (req.success) {
+        setCommodities(req.commodities);
+      }
     } catch (error) {}
   };
   const onFinish = (values) => {
-    console.log(values);
     updateOrder({
-      nameReceiver: 'lai van huan1',
-      addressReceiver: 'man thien',
-      phoneReceiver: '754654635',
-      addressCustomer: 'hahahah',
-      id_Commodities: 'meo1',
-      totalMoney: '50000',
+      nameReceiver: values.nameReceiver,
+      addressReceiver: addressReceiver.matching_place_name,
+      phoneReceiver: values.phoneReceiver,
+      addressCustomer: addressDelivery.matching_place_name,
+      id_Commodities: '1',
+      totalMoney: distance,
     });
   };
   return (
@@ -98,7 +129,7 @@ const Page = () => {
                   addressReceiver: data?.state?.info?.addressReceiver,
                   nameReceiver: data?.state?.info?.nameReceiver,
                   phoneReceiver: data?.state?.info?.phoneReceiver,
-                  sectors: 'dasd',
+                  sectors: data?.state?.info?.id_Commodities,
                 }}
               >
                 <Form.Item
@@ -223,9 +254,12 @@ const Page = () => {
                       },
                     ]}
                   >
-                    <Input
-                      placeholder="Loại hàng hóa"
-                      style={{ borderRadius: 10 }}
+                    <Select
+                      placeholder="loại hàng"
+                      style={{
+                        width: 120,
+                      }}
+                      options={fomat()}
                     />
                   </Form.Item>
                 </Form.Item>

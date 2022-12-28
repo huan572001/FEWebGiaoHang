@@ -12,4 +12,14 @@ export const ShipperReceiveService = {
       return axiosClient.put(`${SHIPPER_API_PATH}/shipperreciever/${id}`);
     } catch (error) {}
   },
+  getallreciever: async () => {
+    try {
+      return axiosClient.get(`${SHIPPER_API_PATH}/getallreciever`);
+    } catch (error) {}
+  },
+  shipperrecieverdone: async (id) => {
+    try {
+      return axiosClient.put(`${SHIPPER_API_PATH}/shipperrecieverdone/${id}`);
+    } catch (error) {}
+  },
 };

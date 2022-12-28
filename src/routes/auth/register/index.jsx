@@ -17,7 +17,6 @@ const App = () => {
         ...values,
         notification: '1',
       });
-      console.log(res, '123');
       if (res?.success) {
         informSucess(() => {
           navigate(routerLinks('Login'));
