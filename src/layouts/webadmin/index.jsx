@@ -1,13 +1,13 @@
-import { Card, Layout, Menu } from 'antd';
-import React, { useState } from 'react';
-import { routerLinks } from '@/utils';
-import { useNavigate } from 'react-router';
+import { Card, Layout, Menu } from "antd";
+import React, { useState } from "react";
+import { routerLinks } from "@/utils";
+import { useNavigate } from "react-router";
 
-import listMenu from './menus';
+import listMenu from "./menus";
 
-import { keyToken } from '@/variable';
-import { useAuth } from '@/global';
-import './index.less';
+import { keyToken } from "@/variable";
+import { useAuth } from "@/global";
+import "./index.less";
 const { Content, Footer, Sider } = Layout;
 
 const App = ({ children }) => {
@@ -17,8 +17,8 @@ const App = ({ children }) => {
   return (
     <Layout
       style={{
-        minHeight: '100vh',
-        overflow: 'hidden',
+        minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
       <Sider className="sider">
@@ -38,10 +38,10 @@ const App = ({ children }) => {
         </div>
         <Menu
           className="menu"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={["1"]}
           onClick={(info) => {
             !localStorage.getItem(keyToken)
-              ? navigate(routerLinks('Login'), { replace: true })
+              ? navigate(routerLinks("Login"), { replace: true })
               : navigate(routerLinks(info.key));
           }}
           mode="inline"
@@ -51,7 +51,7 @@ const App = ({ children }) => {
           className="logout"
           onClick={() => {
             auth.logout();
-            navigate(routerLinks('Login'));
+            navigate(routerLinks("Login"));
           }}
         >
           logout
@@ -59,13 +59,6 @@ const App = ({ children }) => {
       </Sider>
       <Layout className="site-layout">
         <Content>{children}</Content>
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Ant Design ©2018 Created by Ant UED
-        </Footer>
       </Layout>
     </Layout>
   );

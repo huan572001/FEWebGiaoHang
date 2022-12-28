@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { MapBox } from '@/components';
-import { Button, Card, Collapse, Input, Form } from 'antd';
-import './index.less';
+import { useEffect, useState } from "react";
+import { MapBox } from "@/components";
+import { Button, Card, Collapse, Input, Form } from "antd";
+import "./index.less";
 import {
   EditOutlined,
   EllipsisOutlined,
   LoadingOutlined,
   SendOutlined,
   SettingOutlined,
-} from '@ant-design/icons';
-import { data } from 'autoprefixer';
-import { ReportServicer } from '@/services/admin/report';
-import { useAuth } from '@/global';
+} from "@ant-design/icons";
+import { data } from "autoprefixer";
+import { ReportServicer } from "@/services/admin/report";
+import { useAuth } from "@/global";
 
 const Chat = ({ data }) => {
   // const auth = useAuth();
@@ -21,10 +21,10 @@ const Chat = ({ data }) => {
   // });
   const [chats, setChats] = useState([]);
   const [loadding, setLoadding] = useState(false);
-  const [bot, SetBot] = useState('');
+  const [bot, SetBot] = useState("");
   const onFinish = (values) => {
     setLoadding(true);
-    document.getElementById('myForm').reset();
+    document.getElementById("myForm").reset();
     let newData = [...chats];
     newData.push({ content: values.chat, status: false });
     setChats(newData);
@@ -66,18 +66,20 @@ const Chat = ({ data }) => {
     <>
       <div
         className="site-card-border-less-wrapper support"
-        style={{ display: 'flex' }}
+        style={{ display: "flex" }}
       >
         <Card
-          title={data.Account.Customer.fullname}
+          title={data?.Account?.Customer === null
+            ? data?.Account?.Shipper?.fullname
+            : data?.Account?.Customer?.fullname}
           bordered={false}
           style={{
             width: 500,
           }}
           actions={[
-            <Form style={{ display: 'flex' }} onFinish={onFinish} id="myForm">
+            <Form style={{ display: "flex" }} onFinish={onFinish} id="myForm">
               <Form.Item
-                style={{ margin: 10, marginTop: 0, width: '87%' }}
+                style={{ margin: 10, marginTop: 0, width: "87%" }}
                 name="chat"
               >
                 <Input style={{ borderRadius: 10 }} />
@@ -86,9 +88,9 @@ const Chat = ({ data }) => {
                 <button
                   //   htmlType="submit"
                   style={{
-                    background: '#fff',
-                    border: 'none',
-                    marginLeft: '-10px',
+                    background: "#fff",
+                    border: "none",
+                    marginLeft: "-10px",
                   }}
                 >
                   <SendOutlined
@@ -96,7 +98,7 @@ const Chat = ({ data }) => {
                       marginTop: 5,
                       marginRight: 10,
                       fontSize: 20,
-                      color: 'red',
+                      color: "red",
                     }}
                   />
                 </button>
@@ -111,8 +113,8 @@ const Chat = ({ data }) => {
                   <div
                     style={{
                       margin: 10,
-                      justifyContent: 'flex-end',
-                      display: 'flex',
+                      justifyContent: "flex-end",
+                      display: "flex",
                     }}
                   >
                     <div className="btnCustomer" key={index}>

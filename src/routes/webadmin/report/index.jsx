@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, Divider, List, Skeleton } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { ReportServicer } from '@/services/admin/report';
-import Chat from './support/index';
+import React, { useEffect, useState } from "react";
+import { Avatar, Divider, List, Skeleton } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ReportServicer } from "@/services/admin/report";
+import Chat from "./support/index";
 const App = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [user, setUesr] = useState('');
+  const [user, setUesr] = useState("");
   const getAllUser = async () => {
     try {
       const req = await ReportServicer.getAllUserReport();
@@ -16,30 +16,35 @@ const App = () => {
       }
     } catch (error) {}
   };
+  console.log(data);
   useEffect(() => {
     getAllUser();
   }, []);
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: "flex" }}>
       <div>
         <div
           style={{
             width: 250,
-            background: 'red',
-            borderRadius: '10px 10px 0px 0px',
+            background: "green",
+            borderRadius: "10px 10px 0px 0px",
             height: 50,
+            display: "flex",
+            justifyContent: "space-around",
+            padding: 10,
+            fontWeight: "bold",
           }}
         >
-          danh sach Report
+          Danh sach Report
         </div>
         <div
           id="scrollableDiv"
           style={{
             width: 250,
             height: 750,
-            overflow: 'auto',
-            padding: '0 16px',
-            border: '1px solid rgba(140, 140, 140, 0.35)',
+            overflow: "auto",
+            padding: "0 16px",
+            border: "1px solid rgba(140, 140, 140, 0.35)",
           }}
         >
           <InfiniteScroll
@@ -66,7 +71,7 @@ const App = () => {
                     avatar={
                       <Avatar
                         src={
-                          'https://scr.vn/wp-content/uploads/2020/07/Avatar-Facebook-tr%E1%BA%AFng.jpg'
+                          "https://scr.vn/wp-content/uploads/2020/07/Avatar-Facebook-tr%E1%BA%AFng.jpg"
                         }
                       />
                     }
@@ -76,7 +81,9 @@ const App = () => {
                           setOpen(true), setUesr(item);
                         }}
                       >
-                        {item.Account.Customer.fullname}
+                        {item?.Account?.Customer === null
+                          ? item?.Account?.Shipper?.fullname
+                          : item?.Account?.Customer?.fullname}
                       </a>
                     }
                     description={item.email}
@@ -87,7 +94,7 @@ const App = () => {
           </InfiniteScroll>
         </div>
       </div>
-      {open ? <Chat data={user} /> : ''}
+      {open ? <Chat data={user} /> : ""}
     </div>
   );
 };
