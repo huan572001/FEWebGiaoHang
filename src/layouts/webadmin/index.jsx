@@ -31,8 +31,8 @@ const App = ({ children }) => {
               alt="logoMale"
             />
             <div style={{ paddingLeft: 5 }}>
-              <div className="nameUser">Huan</div>
-              <div>huan@gmail.com</div>
+              <div className="nameUser">{auth?.user?.infor?.fullname}</div>
+              <div>{auth?.user?.data?.email}</div>
             </div>
           </div>
         </div>

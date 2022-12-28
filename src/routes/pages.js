@@ -82,6 +82,11 @@ export const pages = [
         component: React.lazy(() => import('./shipper/revenue')),
         title: 'Quản lý doanh thu',
       },
+      {
+        path: routerLinks('report'),
+        component: React.lazy(() => import('./shipper/support')),
+        title: 'Quản lý report',
+      },
     ], // 💬 generate link to here
   },
   {

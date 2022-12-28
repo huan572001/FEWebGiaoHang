@@ -31,8 +31,8 @@ const App = ({ children }) => {
               alt="logoMale"
             />
             <div style={{ paddingLeft: 5 }}>
-              <div className="nameUser">Huan</div>
-              <div>huan@gmail.com</div>
+              <div className="nameUser">{auth?.user?.infor?.fullname}</div>
+              <div>{auth?.user?.data?.email}</div>
             </div>
           </div>
         </div>
@@ -58,9 +58,7 @@ const App = ({ children }) => {
         </div>
       </Sider>
       <Layout className="site-layout">
-        <Content style={{ background: '#FFF', padding: 15 }}>
-          {children}
-        </Content>
+        <Content style={{ padding: 15 }}>{children}</Content>
         <Footer
           style={{
             textAlign: 'center',

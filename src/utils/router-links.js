@@ -13,6 +13,7 @@ const Util = (name) => {
     Shipper: '/shipper',
     'Nhận đơn hàng': '/receive',
     'Danh sách đơn hàng': '/listOder',
+    report: '/report',
 
     Admin: '/admin',
     'Quản lý khách hàng': '/admin/customer',

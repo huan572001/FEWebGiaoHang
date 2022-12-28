@@ -14,6 +14,7 @@ const App = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const auth = useAuth();
+  console.log(auth);
   return (
     <Layout
       style={{
@@ -31,8 +32,8 @@ const App = ({ children }) => {
               alt="logoMale"
             />
             <div style={{ paddingLeft: 5 }}>
-              <div className="nameUser">{auth?.user?.fullname}</div>
-              <div>{auth?.user?.email}</div>
+              <div className="nameUser">{auth?.user?.infor?.fullname}</div>
+              <div>{auth?.user?.data?.email}</div>
             </div>
           </div>
         </div>

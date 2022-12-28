@@ -17,7 +17,7 @@ const Layout = [
   },
   {
     label: 'Hỗ trợ',
-    key: 'Hỗ trợ',
+    key: 'report',
     icon: <HomeOutlined />,
   },
 ];
