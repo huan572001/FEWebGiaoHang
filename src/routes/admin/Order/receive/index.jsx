@@ -8,6 +8,7 @@ import { OrderService } from '@/services/customer/Order';
 import { informError, informSucess } from '@/components/Modal/Modal';
 const Page = () => {
   const [data, setData] = useState([]);
+  const [status, setStatus] = useState(true);
   let uniqueId = 1;
   const getAllAPI = async () => {
     try {
@@ -25,8 +26,11 @@ const Page = () => {
     }
   };
   useEffect(() => {
-    getAllAPI();
-  }, [data]);
+    if (status) {
+      getAllAPI();
+      setStatus(false);
+    }
+  }, [status]);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -134,7 +138,7 @@ const Page = () => {
       if (response?.success) {
         // if (true) {
         informSucess();
-        setData([]);
+        setStatus(true);
       } else {
         informError();
       }

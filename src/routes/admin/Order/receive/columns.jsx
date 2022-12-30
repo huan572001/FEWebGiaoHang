@@ -3,7 +3,12 @@ import {
   showDeleteOderModal,
 } from '@/components/Modal/Modal';
 import { routerLinks } from '@/utils';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from '@ant-design/icons';
+import { Divider } from 'antd';
 import { useNavigate } from 'react-router-dom';
 // import deleteOrder from './deleteOrder';
 export const columns = (getColumnSearchProps, deleteOrder) => {
@@ -57,14 +62,15 @@ export const columns = (getColumnSearchProps, deleteOrder) => {
       key: '8',
       render: (_, info) => (
         <>
-          <CheckCircleOutlined
+          <DeleteOutlined
             onClick={() => {
               showDeleteOderModal(() => {
                 deleteOrder(info.id);
               });
             }}
           />
-          <CheckCircleOutlined
+          <Divider type="vertical" />
+          <EditOutlined
             onClick={() => navigate(`edit/${info.id}`, { state: { info } })}
           />
         </>
