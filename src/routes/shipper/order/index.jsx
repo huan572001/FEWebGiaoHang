@@ -11,9 +11,6 @@ const Page = () => {
         <Tabs.TabPane tab="Đơn hàng đã giao thành công" key="2">
           <SuccessDelivery />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Đơn hàng hủy" key="3">
-          {/* <Mentee /> */}
-        </Tabs.TabPane>
       </Tabs>
     </>
   );

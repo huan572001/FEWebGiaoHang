@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Tooltip, Collapse, Select } from 'antd';
 import { OrderService } from '@/services/customer/Order';
 import { MapService } from '@/services/map';
-import auth from '@/utils/auth';
 import Search from '../search';
 import { informSucess, informError } from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import { routerLinks } from '@/utils';
 import { values } from 'lodash';
 import { UserService } from '@/services/auth';
+import { useAuth } from '@/global';
 const FormOrder = ({ infoUser }) => {
   const { Panel } = Collapse;
   const [open, setOpen] = useState(['1']);
@@ -27,6 +27,7 @@ const FormOrder = ({ infoUser }) => {
       latitude: null,
     },
   });
+  const auth = useAuth();
   const [commodities, setCommodities] = useState([]);
   const [coin, setCoin] = useState(0);
 
@@ -83,6 +84,7 @@ const FormOrder = ({ infoUser }) => {
     });
   };
   const onFinishDelivery = async (value) => {
+    console.log(value);
     if (distance !== 0) {
       document.getElementById('sub').disabled = false;
     }
@@ -99,14 +101,13 @@ const FormOrder = ({ infoUser }) => {
         },
         end: viewport.start,
       });
-
       value.addressReceiver = addressReceiver.matching_place_name;
-      const response = await OrderService.addressSender(auth.getUser().id, {
-        address: value.addressSender,
+      const response = await OrderService.addressSender(auth?.user?.infor?.id, {
+        address: addressDelivery.matching_place_name,
         phone: value.phoneSender,
       });
       if (response.success) {
-        //thong bao gi do
+        // setInfoUser('');
       } else {
         //thong bao that bai
       }
