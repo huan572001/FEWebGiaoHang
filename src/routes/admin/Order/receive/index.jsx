@@ -4,6 +4,8 @@ import { CustomerReceiveService } from '@/services/customer/receive';
 import { useEffect, useState, useRef } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { OrderService } from '@/services/customer/Order';
+import { informError, informSucess } from '@/components/Modal/Modal';
 const Page = () => {
   const [data, setData] = useState([]);
   let uniqueId = 1;
@@ -24,7 +26,7 @@ const Page = () => {
   };
   useEffect(() => {
     getAllAPI();
-  }, []);
+  }, [data]);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -126,10 +128,22 @@ const Page = () => {
         text
       ),
   });
+  const deleteOrder = async (id) => {
+    try {
+      const response = await OrderService.deleteOrder(id);
+      if (response?.success) {
+        // if (true) {
+        informSucess();
+        setData([]);
+      } else {
+        informError();
+      }
+    } catch (error) {}
+  };
   return (
     <>
       <Table
-        columns={columns(getColumnSearchProps)}
+        columns={columns(getColumnSearchProps, deleteOrder)}
         dataSource={data}
         rowKey={(record) => {
           if (!record.__uniqueId) record.__uniqueId = ++uniqueId;

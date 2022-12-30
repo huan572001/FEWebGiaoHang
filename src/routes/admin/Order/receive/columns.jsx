@@ -5,8 +5,8 @@ import {
 import { routerLinks } from '@/utils';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import deleteOrder from './deleteOrder';
-export const columns = (getColumnSearchProps) => {
+// import deleteOrder from './deleteOrder';
+export const columns = (getColumnSearchProps, deleteOrder) => {
   const navigate = useNavigate();
   return [
     {
