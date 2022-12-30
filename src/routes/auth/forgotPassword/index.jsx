@@ -18,12 +18,14 @@ const App = () => {
     try {
       const res = await UserService.forgotPassword(values);
       if (res?.success) {
-        informSucess(res?.msg);
+        informSucess(() => {
+          navigate(routerLinks('Login'));
+        }, 'Gửi mail thành công! mật khẩu mới đã được gửi vào email của bạn!');
       } else {
-        informError('gmail không tồn tại trong hệ thống!');
+        informError('Gmail không tồn tại trong hệ thống!');
       }
     } catch (error) {
-      informError('gmail không tồn tại trong hệ thống!');
+      informError('Gmail không tồn tại trong hệ thống!');
     }
   };
   return (

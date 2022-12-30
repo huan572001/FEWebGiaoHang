@@ -1,9 +1,9 @@
 import swal from 'sweetalert';
 
-export const informSucess = (handal) => {
+export const informSucess = (handal, text) => {
   swal({
     title: 'Thực hiện thành công',
-    text: `Thành công`,
+    text: text ? text : `Thành công`,
     icon: 'success',
     // dangerMode: true,
     buttons: 'Đồng ý',
