@@ -14,7 +14,6 @@ const App = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const auth = useAuth();
-  console.log(auth);
   return (
     <Layout
       style={{

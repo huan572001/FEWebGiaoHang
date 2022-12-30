@@ -83,7 +83,6 @@ const FormOrder = ({ infoUser }) => {
     });
   };
   const onFinishDelivery = async (value) => {
-    console.log(value, 'huan');
     if (distance !== 0) {
       document.getElementById('sub').disabled = false;
     }

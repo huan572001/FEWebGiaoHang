@@ -16,6 +16,11 @@ const Layout = [
     icon: <HomeOutlined />,
   },
   {
+    label: 'Thông tin cá nhân',
+    key: 'infoShipper',
+    icon: <HomeOutlined />,
+  },
+  {
     label: 'Hỗ trợ',
     key: 'report',
     icon: <HomeOutlined />,
