@@ -7,12 +7,18 @@ import './index.less';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { UserService } from '@/services/auth';
 import { informError, informSucess } from '@/components/Modal/Modal';
+import Search from '@/routes/admin/createOrder/search';
+import { useState } from 'react';
 const App = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [addressDelivery, setAddressDelivery] = useState();
   const onFinish = async (values) => {
+    console.log(values);
     try {
+      values.address = addressDelivery.matching_place_name;
       values.birthday = values.birthday.format('YYYY-MM-DD');
+      console.log(values);
       const res = await UserService.registerUser({
         ...values,
         notification: '1',
@@ -52,6 +58,9 @@ const App = () => {
                   {
                     required: true,
                     message: 'Không được để trống',
+                  },
+                  {
+                    type: 'email',
                   },
                 ]}
               >
@@ -106,17 +115,18 @@ const App = () => {
               </Form.Item>
               <Form.Item
                 name="address"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Không được để trống!',
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: 'Không được để trống!',
+                //   },
+                // ]}
               >
-                <Input
+                {/* <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Địa chỉ"
-                />
+                /> */}
+                {Search(setAddressDelivery)}
               </Form.Item>
               <Form.Item
                 name="phone"

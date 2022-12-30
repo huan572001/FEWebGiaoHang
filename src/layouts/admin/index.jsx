@@ -8,6 +8,7 @@ import listMenu from './menus';
 import { keyToken } from '@/variable';
 import { useAuth } from '@/global';
 import './index.less';
+import { LogoutOutlined } from '@ant-design/icons';
 const { Content, Footer, Sider } = Layout;
 
 const App = ({ children }) => {
@@ -47,14 +48,17 @@ const App = ({ children }) => {
           mode="inline"
           items={listMenu}
         />
-        <div
-          className="logout"
-          onClick={() => {
-            auth.logout();
-            navigate(routerLinks('Login'));
-          }}
-        >
-          logout
+        <div className="logout" style={{ display: 'flex', color: '#FFF' }}>
+          <LogoutOutlined />
+          <div
+            style={{ paddingLeft: 13 }}
+            onClick={() => {
+              auth.logout();
+              navigate(routerLinks('Login'));
+            }}
+          >
+            logout
+          </div>
         </div>
       </Sider>
       <Layout className="site-layout">
