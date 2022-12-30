@@ -37,7 +37,7 @@ export const columns = (getColumnSearchProps) => {
       ...getColumnSearchProps('addressReceiver'),
     },
     {
-      title: 'giá ship',
+      title: 'Giá ship',
       key: '7',
       dataIndex: 'totalMoney',
       ...getColumnSearchProps('totalMoney'),

@@ -27,7 +27,7 @@ export const columns = (setSuccess, getColumnSearchProps) => {
       ...getColumnSearchProps('email'),
     },
     {
-      title: 'địa chỉ',
+      title: 'Địa chỉ',
       key: '3',
       render: (_, info) => <>{info?.Customer?.address}</>,
     },

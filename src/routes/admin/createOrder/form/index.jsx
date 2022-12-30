@@ -310,21 +310,21 @@ const FormOrder = ({ infoUser }) => {
                 />
               </Form.Item>
             </Form.Item>
-            <Button htmlType="submit">xac nhan</Button>
+            <Button htmlType="submit">Xác nhận</Button>
             <Button
               onClick={() => {
                 setOpenReceiver([]);
               }}
             >
-              huy
+              Hủy
             </Button>
           </Form>
         </Panel>
       </Collapse>
       {distance !== 0 ? (
         <>
-          <div>khoảng cách {distance / 1000} km</div>
-          <div>tổng số tiền phải trả= {coin}</div>
+          <div>Khoảng cách {distance / 1000} km</div>
+          <div>Tổng số tiền phải trả= {coin}</div>
         </>
       ) : (
         <></>

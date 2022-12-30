@@ -19,7 +19,7 @@ export const columns = (setSuccess) => {
       render: (_, info) => info?.Shipper?.phone,
     },
     {
-      title: 'địa chỉ',
+      title: 'Địa chỉ',
       key: '3',
       render: (_, info) => info?.Shipper?.address,
     },

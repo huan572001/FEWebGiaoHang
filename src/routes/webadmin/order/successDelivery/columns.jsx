@@ -47,7 +47,7 @@ export const columns = (getColumnSearchProps) => {
       render: (_, info) => <>{info.Shipper.fullname}</>,
     },
     {
-      title: 'giá ship',
+      title: 'Giá ship',
       key: '7',
       dataIndex: 'totalMoney',
       ...getColumnSearchProps('totalMoney'),
