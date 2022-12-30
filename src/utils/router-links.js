@@ -9,10 +9,12 @@ const Util = (name) => {
     'Quản lý đơn hàng': '/userAccount',
     'Quản lý doanh thu': '/revenue',
     'Hỗ trợ': 'roleAccount',
+    infoCustomer: '/infoCustomer',
     //shipper
     Shipper: '/shipper',
     'Nhận đơn hàng': '/receive',
     'Danh sách đơn hàng': '/listOder',
+    infoShipper: '/infoShipper',
     report: '/report',
 
     Admin: '/admin',

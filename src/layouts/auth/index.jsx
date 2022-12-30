@@ -4,12 +4,7 @@ import './index.less';
 const Layout = ({ children }) => {
   return (
     <>
-      <div>
-        <div>
-          <img src="" />
-        </div>
-        {children}
-      </div>
+      <div>{children}</div>
     </>
   );
 };

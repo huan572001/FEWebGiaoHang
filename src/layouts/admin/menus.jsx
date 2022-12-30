@@ -1,24 +1,30 @@
-import { HomeOutlined } from '@ant-design/icons';
+import {
+  EditOutlined,
+  HomeOutlined,
+  OrderedListOutlined,
+  PhoneOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 const Layout = [
   {
     label: 'Tạo đơn hàng',
     key: 'Tạo đơn hàng',
-    icon: <HomeOutlined />,
+    icon: <EditOutlined />,
   },
   {
     label: 'Quản lý đơn hàng',
     key: 'Quản lý đơn hàng',
-    icon: <HomeOutlined />,
+    icon: <OrderedListOutlined />,
   },
-  // {
-  //   label: 'Quản lý doanh thu',
-  //   key: 'Quản lý doanh thu',
-  //   icon: <HomeOutlined />,
-  // },
+  {
+    label: 'Thông tin cá nhân',
+    key: 'infoCustomer',
+    icon: <UserOutlined />,
+  },
   {
     label: 'Hỗ trợ',
     key: 'Hỗ trợ',
-    icon: <HomeOutlined />,
+    icon: <PhoneOutlined />,
   },
 ];
 export default Layout;

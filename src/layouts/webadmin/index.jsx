@@ -1,13 +1,14 @@
-import { Card, Layout, Menu } from "antd";
-import React, { useState } from "react";
-import { routerLinks } from "@/utils";
-import { useNavigate } from "react-router";
+import { Card, Layout, Menu } from 'antd';
+import React, { useState } from 'react';
+import { routerLinks } from '@/utils';
+import { useNavigate } from 'react-router';
 
-import listMenu from "./menus";
+import listMenu from './menus';
 
-import { keyToken } from "@/variable";
-import { useAuth } from "@/global";
-import "./index.less";
+import { keyToken } from '@/variable';
+import { useAuth } from '@/global';
+import './index.less';
+import { LogoutOutlined } from '@ant-design/icons';
 const { Content, Footer, Sider } = Layout;
 
 const App = ({ children }) => {
@@ -17,8 +18,8 @@ const App = ({ children }) => {
   return (
     <Layout
       style={{
-        minHeight: "100vh",
-        overflow: "hidden",
+        minHeight: '100vh',
+        overflow: 'hidden',
       }}
     >
       <Sider className="sider">
@@ -38,23 +39,26 @@ const App = ({ children }) => {
         </div>
         <Menu
           className="menu"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={['1']}
           onClick={(info) => {
             !localStorage.getItem(keyToken)
-              ? navigate(routerLinks("Login"), { replace: true })
+              ? navigate(routerLinks('Login'), { replace: true })
               : navigate(routerLinks(info.key));
           }}
           mode="inline"
           items={listMenu}
         />
-        <div
-          className="logout"
-          onClick={() => {
-            auth.logout();
-            navigate(routerLinks("Login"));
-          }}
-        >
-          logout
+        <div className="logout" style={{ display: 'flex', color: '#FFF' }}>
+          <LogoutOutlined />
+          <div
+            style={{ paddingLeft: 13 }}
+            onClick={() => {
+              auth.logout();
+              navigate(routerLinks('Login'));
+            }}
+          >
+            logout
+          </div>
         </div>
       </Sider>
       <Layout className="site-layout">

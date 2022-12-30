@@ -20,6 +20,11 @@ export const pages = [
         component: React.lazy(() => import('./auth/dashboard')),
         title: 'Dashboard',
       },
+      {
+        path: routerLinks('Dashboard'),
+        component: React.lazy(() => import('./auth/dashboard')),
+        title: 'Dashboard',
+      },
     ],
   },
   {
@@ -51,11 +56,11 @@ export const pages = [
         component: React.lazy(() => import('./admin/Order/receive/editOder')),
         title: 'Quản lý doanh thu',
       },
-      // {
-      //   path: routerLinks('Hỗ trợ'),
-      //   component: React.lazy(() => import('./admin/account/role')),
-      //   title: 'Hỗ trợ',
-      // },
+      {
+        path: routerLinks('infoCustomer'),
+        component: React.lazy(() => import('@/components/profileUser')),
+        title: 'Thông tin cá nhân',
+      },
     ], // 💬 generate link to here
   },
   {
@@ -85,6 +90,11 @@ export const pages = [
       {
         path: routerLinks('report'),
         component: React.lazy(() => import('./shipper/support')),
+        title: 'Quản lý report',
+      },
+      {
+        path: routerLinks('infoShipper'),
+        component: React.lazy(() => import('@/components/profileUser')),
         title: 'Quản lý report',
       },
     ], // 💬 generate link to here

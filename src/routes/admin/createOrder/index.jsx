@@ -13,7 +13,6 @@ const Page = () => {
   const getUser = async () => {
     try {
       const req = await UserService.getCustomerById();
-      console.log(req);
       setInfoUser(req?.data);
     } catch (error) {}
   };
@@ -23,7 +22,6 @@ const Page = () => {
   // useEffect(() => {
   //   // searchAddress('2 Nguyễn Thông, Phường 6, Quận 3, Thành phố Hồ Chí Minh');
   // }, []);
-  console.log(infoUser);
   return (
     <>
       <div
