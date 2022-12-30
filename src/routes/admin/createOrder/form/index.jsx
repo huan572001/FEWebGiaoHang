@@ -120,7 +120,7 @@ const FormOrder = ({ infoUser }) => {
     try {
       const response = await OrderService.addOrderServices({
         ...data,
-        totalMoney: (distance / 1000) * 15000,
+        totalMoney: coin,
       });
       if (response.success) {
         informSucess(navigate(routerLinks('Customer')));
