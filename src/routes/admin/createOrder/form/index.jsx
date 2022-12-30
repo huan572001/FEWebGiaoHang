@@ -182,7 +182,6 @@ const FormOrder = ({ infoUser }) => {
                 }}
               >
                 <Input
-                  disabled
                   placeholder="Tên người gửi"
                   style={{ borderRadius: 10 }}
                 />
