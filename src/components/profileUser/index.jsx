@@ -61,7 +61,7 @@ const info = () => {
         fullname: e?.fullname,
         address: addressDelivery?.matching_place_name,
         phone: e?.phone,
-        gender: e?.gender,
+        gender: e?.gender ? '1' : '0',
         birthday: e?.birthday.format('YYYY-MM-DD'),
       });
     } else if (auth.user.data.role === 'shipper') {
@@ -69,7 +69,7 @@ const info = () => {
         fullname: e?.fullname,
         address: addressDelivery?.matching_place_name,
         phone: e?.phone,
-        gender: e?.gender,
+        gender: e?.gender ? '1' : '0',
         birthday: e?.birthday.format('YYYY-MM-DD'),
       });
     }
