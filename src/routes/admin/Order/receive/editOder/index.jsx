@@ -18,10 +18,12 @@ const Page = () => {
   const [commodities, setCommodities] = useState([]);
   const [addressReceiver, setAddressReceiver] = useState([]);
   const [addressDelivery, setAddressDelivery] = useState([]);
-  const [distance, setDistance] = useState();
+  const [distance, setDistance] = useState(0);
+  const [coin, setCoin] = useState(0);
   const navigate = useNavigate();
   const id = useParams();
   const data = useLocation();
+  const [com, setCom] = useState(1);
 
   useEffect(() => {
     if (addressDelivery.length === 0 || addressReceiver.length === 0) {
@@ -33,6 +35,14 @@ const Page = () => {
   useEffect(() => {
     getCommodities();
   }, []);
+  useEffect(() => {
+    if (distance !== 0) {
+      const com1 = commodities.filter((ele) => {
+        return ele.id === com;
+      });
+      setCoin((distance / 1000) * com1[0]?.cost);
+    }
+  }, [com]);
   const distanceAPI = async () => {
     try {
       const response = await MapService.distance(
@@ -45,6 +55,10 @@ const Page = () => {
           latitude: addressReceiver.center[1],
         }
       );
+      const com1 = commodities.filter((ele) => {
+        return ele.id === com;
+      });
+      setCoin((response.routes[0].distance / 1000) * com1[0]?.cost);
       setDistance(response.routes[0].distance);
     } catch (err) {
       console.log('Error is:', err);
@@ -87,8 +101,11 @@ const Page = () => {
       phoneReceiver: values.phoneReceiver,
       addressCustomer: addressDelivery.matching_place_name,
       id_Commodities: '1',
-      totalMoney: distance,
+      totalMoney: coin,
     });
+  };
+  const oncom = (e) => {
+    setCom(e);
   };
   return (
     <>
@@ -255,10 +272,18 @@ const Page = () => {
                     ]}
                   >
                     <Select
+                      defaultValue={{
+                        value: commodities[0]?.id,
+                        label:
+                          commodities[0]?.name +
+                          ' giá: ' +
+                          commodities[0]?.cost,
+                      }}
                       placeholder="loại hàng"
                       style={{
                         width: 120,
                       }}
+                      onChange={oncom}
                       options={fomat()}
                     />
                   </Form.Item>
@@ -266,9 +291,7 @@ const Page = () => {
                 {distance !== 0 ? (
                   <>
                     <div>khoảng cách {distance / 1000} km</div>
-                    <div>
-                      tổng số tiền phải trả= {(distance / 1000) * 15000}
-                    </div>
+                    <div>tổng số tiền phải trả= {coin}</div>
                   </>
                 ) : (
                   <></>
