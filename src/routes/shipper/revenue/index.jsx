@@ -53,7 +53,7 @@ const Page = () => {
     <div className="site-card-wrapper">
       <Row gutter={24}>
         <Col span={12}>
-          <Card title="Thong ke" bordered={false}>
+          <Card title="Thống kê" bordered={false}>
             <RangePicker onChange={conchange} />
             <div>Tổng số đơn hàng đã hoàn thành: {num}</div>
             <div>Tổng số tiền đã nhận :{total} VND</div>
