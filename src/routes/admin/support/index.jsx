@@ -31,9 +31,11 @@ const Page = () => {
     postReport({ content: values.chat, status: 1 });
     createreport(values.chat);
   };
+  console.log(auth?.user?.data?.id);
   const getAllChat = async () => {
     try {
-      const req = await ReportServicer.getAllReportById(auth.user.id);
+      const req = await ReportServicer.getAllReportById(auth?.user?.data?.id);
+      console.log(req);
       if (req?.success) {
         setChats(req.data);
       }
@@ -53,7 +55,7 @@ const Page = () => {
   const postReport = async (values) => {
     console.log(values);
     try {
-      const req = await ReportServicer.postReport(values, auth.user.id);
+      const req = await ReportServicer.postReport(values, auth?.user?.data?.id);
       if (req?.success) {
         setLoadding(false);
       }
