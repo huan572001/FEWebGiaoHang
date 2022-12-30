@@ -262,7 +262,7 @@ const FormOrder = ({ infoUser }) => {
                 ]}
               >
                 <Input
-                  placeholder="Tên người gửi"
+                  placeholder="Tên người nhận"
                   style={{ borderRadius: 10 }}
                 />
               </Form.Item>
