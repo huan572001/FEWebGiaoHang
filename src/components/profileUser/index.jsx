@@ -16,11 +16,14 @@ import { ProfileCustomerService } from '@/services/customer/Profile';
 import { informError, informSucess } from '../Modal/Modal';
 import Search from '@/routes/admin/createOrder/search';
 import { ProfileShiperService } from '@/services/shipper/profile';
+import { LockOutlined } from '@ant-design/icons';
 
 const info = () => {
   const [componentDisabled, setComponentDisabled] = useState(true);
   const [addressDelivery, setAddressDelivery] = useState([]);
+  const [openPass, setOpenPass] = useState('none');
   const auth = useAuth();
+  const [form] = Form.useForm();
 
   const updateInfoCustomer = async (data) => {
     try {
@@ -170,16 +173,89 @@ const info = () => {
               >
                 Chỉnh sửa
               </Button>
+              <Button
+                style={{ display: componentDisabled ? '' : 'none' }}
+                onClick={() => {
+                  setOpenPass('');
+                }}
+              >
+                Đổi mật khẩu
+              </Button>
             </Card>
           </Col>
-          <Col span={8} style={{ display: 'none' }}>
-            <Card title="Card title" bordered={false}>
-              Card content
-            </Card>
-          </Col>
-          <Col span={8} style={{ display: 'none' }}>
-            <Card title="Card title" bordered={false}>
-              Card content
+          <Col span={8} style={{ display: openPass }}>
+            <Card title="Đổi mật khẩu" bordered={false}>
+              <Form onFinish={onFinish}>
+                <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  label="Password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                  name="confirm"
+                  label="Confirm Password"
+                  dependencies={['password']}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please confirm your password!',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          new Error(
+                            'The two passwords that you entered do not match!'
+                          )
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  Xác Nhận
+                </Button>
+                <Button
+                  onClick={() => {
+                    setOpenPass('none');
+                    form.resetFields();
+                  }}
+                >
+                  Hủy
+                </Button>
+              </Form>
             </Card>
           </Col>
         </Row>
