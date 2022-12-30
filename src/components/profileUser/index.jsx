@@ -17,6 +17,8 @@ import { informError, informSucess } from '../Modal/Modal';
 import Search from '@/routes/admin/createOrder/search';
 import { ProfileShiperService } from '@/services/shipper/profile';
 import { LockOutlined } from '@ant-design/icons';
+import { Await } from 'react-router-dom';
+import { UserService } from '@/services/auth';
 
 const info = () => {
   const [componentDisabled, setComponentDisabled] = useState(true);
@@ -53,7 +55,6 @@ const info = () => {
       informError();
     }
   };
-  console.log();
   const onFinish = (e) => {
     if (auth.user.data.role === 'customer') {
       updateInfoCustomer({
@@ -73,6 +74,20 @@ const info = () => {
       });
     }
   };
+  const onFinishPassword = async (e) => {
+    try {
+      const req = await UserService.resetPassword(e);
+      if (req.success) {
+        informSucess(() => {
+          setOpenPass('none');
+        });
+      } else {
+        informError();
+      }
+    } catch (error) {
+      informError();
+    }
+  };
   return (
     <>
       <div className="site-card-wrapper">
@@ -80,9 +95,6 @@ const info = () => {
           <Col span={8}>
             <Card title="Thông tin cá nhân" bordered={false}>
               <Form
-                labelCol={{ span: 4 }}
-                wrapperCol={{ span: 14 }}
-                layout="horizontal"
                 onFinish={onFinish}
                 disabled={componentDisabled}
                 initialValues={{
@@ -185,10 +197,10 @@ const info = () => {
           </Col>
           <Col span={8} style={{ display: openPass }}>
             <Card title="Đổi mật khẩu" bordered={false}>
-              <Form onFinish={onFinish}>
+              <Form onFinish={onFinishPassword}>
                 <Form.Item
-                  name="password"
-                  label="Password"
+                  name="passwordOld"
+                  label="passwordOld"
                   rules={[
                     {
                       required: true,
@@ -200,8 +212,8 @@ const info = () => {
                   <Input.Password />
                 </Form.Item>
                 <Form.Item
-                  name="password"
-                  label="Password"
+                  name="passwordNew"
+                  label="passwordNew"
                   rules={[
                     {
                       required: true,
@@ -214,9 +226,9 @@ const info = () => {
                 </Form.Item>
 
                 <Form.Item
-                  name="confirm"
+                  name="passwordConfirm"
                   label="Confirm Password"
-                  dependencies={['password']}
+                  dependencies={['passwordNew']}
                   hasFeedback
                   rules={[
                     {
@@ -225,7 +237,7 @@ const info = () => {
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (!value || getFieldValue('password') === value) {
+                        if (!value || getFieldValue('passwordNew') === value) {
                           return Promise.resolve();
                         }
                         return Promise.reject(

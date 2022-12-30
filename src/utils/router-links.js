@@ -3,6 +3,7 @@ const Util = (name) => {
     Login: '/auth/login',
     Register: '/auth/register',
     Dashboard: '/',
+    forgotPassword: '/forgotPassword',
 
     Customer: '/customer',
     'Tạo đơn hàng': '/user',

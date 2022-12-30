@@ -1,5 +1,4 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import React, { useState } from 'react';
 import { UserService } from '@/services/auth';
 import { useAuth } from '@/global';
 import { useNavigate } from 'react-router';
@@ -29,18 +28,14 @@ const App = () => {
           navigate(routerLinks('Admin'), { replace: true });
         }
       } else {
-        informError();
+        informError('Tài khoản hoặc mật khẩu sai!');
       }
     } catch (err) {
-      console.log(
-        err.response.data.msg ===
-          'Fail at auth controller: ReferenceError: reject is not defined'
-      );
       informError(
         err.response.data.msg ===
           'Fail at auth controller: ReferenceError: reject is not defined'
           ? 'Tài khoản hoặc mật khẩu sai!'
-          : 'Thất bại'
+          : 'Tài khoản hoặc mật khẩu sai!'
       );
     }
   };
@@ -95,7 +90,10 @@ const App = () => {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
+                <a
+                  onClick={() => navigate(routerLinks('forgotPassword'))}
+                  className="login-form-forgot"
+                >
                   Forgot password
                 </a>
               </Form.Item>

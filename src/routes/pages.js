@@ -21,7 +21,12 @@ export const pages = [
         title: 'Dashboard',
       },
       {
-        path: routerLinks('Dashboard'),
+        path: routerLinks('forgotPassword'),
+        component: React.lazy(() => import('./auth/forgotPassword')),
+        title: 'forgotPassword',
+      },
+      {
+        path: routerLinks('ForgotPassword'),
         component: React.lazy(() => import('./auth/dashboard')),
         title: 'Dashboard',
       },

@@ -48,4 +48,26 @@ export const UserService = {
       return false;
     }
   },
+  resetPassword: async (data) => {
+    try {
+      return axiosClient.put(`/auth/reset`, data);
+    } catch (e) {
+      console.error(e);
+      if (e.response.data.message) {
+        // Message.error({ text: e.response.data.message });
+      }
+      return false;
+    }
+  },
+  forgotPassword: async (data) => {
+    try {
+      return axiosClient.post(`/auth/forgot`, data);
+    } catch (e) {
+      console.error(e);
+      if (e.response.data.message) {
+        // Message.error({ text: e.response.data.message });
+      }
+      return false;
+    }
+  },
 };
