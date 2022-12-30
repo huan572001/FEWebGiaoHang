@@ -19,7 +19,7 @@ export const columns = (getColumnSearchProps) => {
       render: (_, info) => <>{info.Customer.phone}</>,
     },
     {
-      title: 'địa chỉ người gửi',
+      title: 'Địa chỉ người gửi',
       key: '3',
       dataIndex: 'addressCustomer',
       ...getColumnSearchProps('addressCustomer'),
@@ -37,7 +37,7 @@ export const columns = (getColumnSearchProps) => {
       ...getColumnSearchProps('phoneReceiver'),
     },
     {
-      title: 'địa chỉ người Nhận',
+      title: 'Địa chỉ người Nhận',
       key: '6',
       dataIndex: 'addressReceiver',
       ...getColumnSearchProps('addressReceiver'),

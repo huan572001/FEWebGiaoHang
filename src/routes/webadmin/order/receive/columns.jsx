@@ -13,7 +13,7 @@ export const columns = (getColumnSearchProps) => {
       render: (_, info) => <>{info.Customer.phone}</>,
     },
     {
-      title: 'địa chỉ người gửi',
+      title: 'Địa chỉ người gửi',
       key: '3',
       dataIndex: 'addressCustomer',
       ...getColumnSearchProps('addressReceiver'),
@@ -31,7 +31,7 @@ export const columns = (getColumnSearchProps) => {
       ...getColumnSearchProps('phoneReceiver'),
     },
     {
-      title: 'địa chỉ người Nhận',
+      title: 'Địa chỉ người Nhận',
       key: '6',
       dataIndex: 'addressReceiver',
       ...getColumnSearchProps('addressReceiver'),
@@ -41,20 +41,6 @@ export const columns = (getColumnSearchProps) => {
       key: '7',
       dataIndex: 'totalMoney',
       ...getColumnSearchProps('totalMoney'),
-    },
-    {
-      title: 'HOẠT ĐỘNG',
-      key: '8',
-      render: (_, info) => (
-        <CheckCircleOutlined
-          onClick={() => {
-            showApproveModal(() => {
-              // confirmMentor(info.user.id, 'approve', setData);
-              // approve(info.id);
-            });
-          }}
-        />
-      ),
     },
   ];
 };

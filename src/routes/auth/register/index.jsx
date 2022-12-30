@@ -76,6 +76,11 @@ const App = () => {
                     required: true,
                     message: 'Không được để trống!',
                   },
+                  {
+                    min: 6,
+                    max: 12,
+                    message: 'min: 6 max: 12,',
+                  },
                 ]}
               >
                 <Input

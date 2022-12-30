@@ -29,7 +29,7 @@ export const columns = (getColumnSearchProps, deleteOrder) => {
       // ...getColumnSearchProps('2'),
     },
     {
-      title: 'địa chỉ người gửi',
+      title: 'Địa chỉ người gửi',
       key: 'addressCustomer',
       dataIndex: 'addressCustomer',
       ...getColumnSearchProps('addressCustomer'),
@@ -47,7 +47,7 @@ export const columns = (getColumnSearchProps, deleteOrder) => {
       ...getColumnSearchProps('phoneReceiver'),
     },
     {
-      title: 'địa chỉ người Nhận',
+      title: 'Địa chỉ người Nhận',
       key: '6',
       dataIndex: 'addressReceiver',
       ...getColumnSearchProps('addressReceiver'),
