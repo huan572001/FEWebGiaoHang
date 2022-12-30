@@ -57,7 +57,7 @@ const App = ({ children }) => {
               navigate(routerLinks('Login'));
             }}
           >
-            logout
+            Logout
           </div>
         </div>
       </Sider>
